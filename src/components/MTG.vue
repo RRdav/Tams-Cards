@@ -14,6 +14,9 @@
     const flippedCards = ref<boolean[]>(new Array(cardUrls.length).fill(false));
     // Track which cards are released
     const releasedCards = ref<boolean[]>(new Array(cardUrls.length).fill(false));
+    // Track Animation state
+    const isAnimating = ref(false);
+
     const isCardsReleased = ref(false);
 
     const flipCard = (index: number) => {
@@ -24,6 +27,13 @@
         // Set released state in Vue instead of DOM manipulation
         releasedCards.value = releasedCards.value.map(() => true);
         isCardsReleased.value = true;
+
+        isAnimating.value = true;
+
+        // After animation completes, disable animation flag
+        setTimeout(() => {
+            isAnimating.value = false;
+        }, 1500);
     }
 
     const resetCards = () => {
@@ -35,29 +45,33 @@
 </script>
 
 <template>
-  <div class="mtg-container">
-    <img :src="CardWrapper" class="card-wrapper" alt="Card Wrapper" @click="releaseCardsAnimation()"/>
+    <div>
+        <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
+    </div>
+    <div class="mtg-container">
+    <img :src="CardWrapper" :class="['card-wrapper', isCardsReleased ? 'released' : '']" alt="Card Wrapper" @click="releaseCardsAnimation()"/>
 
     <!-- Loop through cards -->
     <div
-      v-for="(cardUrl, index) in cardUrls"
-      :key="index"
-      :class="[
+        v-for="(cardUrl, index) in cardUrls"
+        :key="index"
+        :class="[
         'card-container',
         { flipped: flippedCards[index] },
-        { [`release-card-${index}`]: releasedCards[index] }
-      ]"
-      @click="flipCard(index)"
+        { [`release-card-${index}`]: releasedCards[index] },
+        { 'animating': isAnimating }
+        ]"
+        @click="flipCard(index)"
     >
-      <div class="card-flipper">
+        <div class="card-flipper">
         <img :src="CardBack" class="card card-back" :alt="`Card Back ${index + 1}`" />
         <img :src="cardUrl" class="card card-front" :alt="`Card ${index + 1}`" />
-      </div>
+        </div>
     </div>
 
     <!-- Reset Button (only show when cards are released) -->
-    <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
-  </div>
+
+    </div>
 </template>
 
 <style scoped>
@@ -74,6 +88,12 @@
     cursor: pointer;
     position: relative;
     z-index: 1;
+    top: 0;
+    transition: top 1s ease;
+}
+
+.card-wrapper.released {
+    top: 200px;
 }
 
 .card-container {
@@ -82,6 +102,8 @@
     perspective: 1000px;
     cursor: pointer;
     position: absolute;
+    bottom: 40px;
+    transition: transform 1s ease-in-out; /* Add this transition */
 }
 
 .card-flipper {
@@ -111,35 +133,46 @@
     transform: rotateY(180deg);
 }
 
-.release-card-0 {
+/* Only apply animation when animating class is present */
+.card-container.release-card-0.animating {
     animation: releaseCard0 1.5s ease-in-out forwards;
-    transform: translate(-250px, -400px) rotate(0deg);
 }
 
-.release-card-1 {
+.card-container.release-card-1.animating {
     animation: releaseCard1 1.5s ease-in-out forwards;
-    transform: translate(0px, -400px) rotate(0deg);
 }
 
-.release-card-2 {
+.card-container.release-card-2.animating {
     animation: releaseCard2 1.5s ease-in-out forwards;
-    transform: translate(250px, -400px) rotate(0deg);
+}
+
+/* Static positions after animation */
+.card-container.release-card-0:not(.animating) {
+    transform: translate(-250px, -300px) rotate(0deg);
+}
+
+.card-container.release-card-1:not(.animating) {
+    transform: translate(0px, -300px) rotate(0deg);
+}
+
+.card-container.release-card-2:not(.animating) {
+    transform: translate(250px, -300px) rotate(0deg);
 }
 
 
 @keyframes releaseCard0 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-250px, -400px) rotate(720deg) }
+    100% { transform: translate(-250px, -300px) rotate(720deg) }
 }
 
 @keyframes releaseCard1 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(0px, -400px) rotate(720deg) }
+    100% { transform: translate(0px, -300px) rotate(720deg) }
 }
 
 @keyframes releaseCard2 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(250px, -400px) rotate(720deg) }
+    100% { transform: translate(250px, -300px) rotate(720deg) }
 }
 
 
