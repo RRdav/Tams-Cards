@@ -12,18 +12,25 @@
 
     // Track which cards are flipped
     const flippedCards = ref<boolean[]>(new Array(cardUrls.length).fill(false));
+    // Track which cards are released
+    const releasedCards = ref<boolean[]>(new Array(cardUrls.length).fill(false));
+    const isCardsReleased = ref(false);
 
     const flipCard = (index: number) => {
         flippedCards.value[index] = !flippedCards.value[index];
     }
 
     const releaseCardsAnimation = () => {
-        // Logic to animate cards being released from the wrapper
-        console.log('Releasing cards animation triggered');
-        // Add card class to trigger CSS animation
-        document.querySelectorAll('.card-container').forEach((card, index) => {
-            card.classList.add(`release-card-${index}`);
-        })
+        // Set released state in Vue instead of DOM manipulation
+        releasedCards.value = releasedCards.value.map(() => true);
+        isCardsReleased.value = true;
+    }
+
+    const resetCards = () => {
+        // Reset flipped and released states
+        flippedCards.value = new Array(cardUrls.length).fill(false);
+        releasedCards.value = new Array(cardUrls.length).fill(false);
+        isCardsReleased.value = false;
     }
 </script>
 
@@ -35,16 +42,21 @@
     <div
       v-for="(cardUrl, index) in cardUrls"
       :key="index"
-      :class="['card-container', { flipped: flippedCards[index] }]"
+      :class="[
+        'card-container',
+        { flipped: flippedCards[index] },
+        { [`release-card-${index}`]: releasedCards[index] }
+      ]"
       @click="flipCard(index)"
     >
       <div class="card-flipper">
-        <!-- Card Back (shows by default) -->
         <img :src="CardBack" class="card card-back" :alt="`Card Back ${index + 1}`" />
-        <!-- Card Front (shows when flipped) -->
         <img :src="cardUrl" class="card card-front" :alt="`Card ${index + 1}`" />
       </div>
     </div>
+
+    <!-- Reset Button (only show when cards are released) -->
+    <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
   </div>
 </template>
 
@@ -76,7 +88,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
+    transition: transform 0.8s;
     transform-style: preserve-3d;
 }
 
@@ -114,32 +126,20 @@
     transform: translate(250px, -400px) rotate(0deg);
 }
 
-/* Adjust flip to work with released position */
-.release-card-0.flipped .card-flipper {
-    transform: rotateY(180deg);
-}
-
-.release-card-1.flipped .card-flipper {
-    transform: rotateY(180deg);
-}
-
-.release-card-2.flipped .card-flipper {
-    transform: rotateY(180deg);
-}
 
 @keyframes releaseCard0 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-250px, -400px) rotate(720deg); }
+    100% { transform: translate(-250px, -400px) rotate(720deg) }
 }
 
 @keyframes releaseCard1 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(0px, -400px) rotate(720deg); }
+    100% { transform: translate(0px, -400px) rotate(720deg) }
 }
 
 @keyframes releaseCard2 {
     0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(250px, -400px) rotate(720deg); }
+    100% { transform: translate(250px, -400px) rotate(720deg) }
 }
 
 
