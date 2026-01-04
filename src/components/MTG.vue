@@ -170,31 +170,31 @@ main {
 
 /* Static positions after animation */
 .card-container.release-card-0:not(.animating) {
-    transform: translate(-180px, -100px) rotate(0deg) scale(1.7);
+    transform: translate(-180px, -100px) rotate(0deg) scale(2);
 }
 
 .card-container.release-card-1:not(.animating) {
-    transform: translate(0px, -100px) rotate(0deg) scale(1.7);
+    transform: translate(0px, -100px) rotate(0deg) scale(2);
 }
 
 .card-container.release-card-2:not(.animating) {
-    transform: translate(180px, -100px) rotate(0deg) scale(1.7);
+    transform: translate(180px, -100px) rotate(0deg) scale(2);
 }
 
 
 @keyframes releaseCard0 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(-150px, -200px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(-180px, -100px) rotate(720deg) scale(2.1) }
 }
 
 @keyframes releaseCard1 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(0px, -200px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(0px, -100px) rotate(720deg) scale(2.1) }
 }
 
 @keyframes releaseCard2 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(150px, -200px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(180px, -100px) rotate(720deg) scale(2.1) }
 }
 
 
