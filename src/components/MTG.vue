@@ -88,13 +88,13 @@
 </template>
 
 <style scoped>
+
 main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
-
 
 .mtg-container {
     display: flex;
@@ -125,7 +125,7 @@ main {
     cursor: pointer;
     position: absolute;
     bottom: -5px;
-    transition: transform 1s ease-in-out; /* Add this transition */
+    transition: transform 1s ease-in-out;
 }
 
 .card-flipper {
@@ -170,15 +170,15 @@ main {
 
 /* Static positions after animation */
 .card-container.release-card-0:not(.animating) {
-    transform: translate(-150px, -200px) rotate(0deg) scale(1.2);
+    transform: translate(-180px, -100px) rotate(0deg) scale(1.7);
 }
 
 .card-container.release-card-1:not(.animating) {
-    transform: translate(0px, -200px) rotate(0deg) scale(1.2);
+    transform: translate(0px, -100px) rotate(0deg) scale(1.7);
 }
 
 .card-container.release-card-2:not(.animating) {
-    transform: translate(150px, -200px) rotate(0deg) scale(1.2);
+    transform: translate(180px, -100px) rotate(0deg) scale(1.7);
 }
 
 
