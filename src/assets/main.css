@@ -33,6 +33,8 @@ a,
 
 .mtg-btn {
   background-color: var(--tams-bg-color-primary);
+  position: relative;
+  z-index: 99999;
   color: black;
   font-family: 'CreatoDisplay', sans-serif;
   border: solid 2px black;
