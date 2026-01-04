@@ -6,9 +6,20 @@
     // Logic for card randomisation
 
     // Grab all Asset #.svg files in public folder
-    const cardModules = import.meta.glob('@/assets/Card[0-9]*.svg', { eager: true, import: 'default', query: '?url' });
+    const cardModules = import.meta.glob('@/assets/Asset [0-9]*.svg', { eager: true, import: 'default', query: '?url' });
     const cardUrls = Object.values(cardModules) as string[];
-    console.log('Loaded card URLs:', cardUrls);
+
+    // Grab 3 random unique cards from cardUrls
+    const getRandomUniqueCards = (numCards: number): string[] => {
+        const selectedCards = new Set<string>();
+        while (selectedCards.size < numCards) {
+            const randomIndex = Math.floor(Math.random() * cardUrls.length);
+            const card = cardUrls[randomIndex];
+            if (card) selectedCards.add(card);
+        }
+        return Array.from(selectedCards);
+    }
+    const selectedCardUrls = getRandomUniqueCards(3);
 
     // Track which cards are flipped
     const flippedCards = ref<boolean[]>(new Array(cardUrls.length).fill(false));
@@ -41,6 +52,13 @@
         flippedCards.value = new Array(cardUrls.length).fill(false);
         releasedCards.value = new Array(cardUrls.length).fill(false);
         isCardsReleased.value = false;
+        isAnimating.value = true;
+        setTimeout(() => {
+            selectedCardUrls.splice(0, selectedCardUrls.length, ...getRandomUniqueCards(3));
+            isAnimating.value = false;
+            console.log('Reset animation complete');
+        }, 500);
+
     }
 </script>
 
@@ -53,7 +71,7 @@
 
     <!-- Loop through cards -->
     <div
-        v-for="(cardUrl, index) in cardUrls"
+        v-for="(cardUrl, index) in selectedCardUrls"
         :key="index"
         :class="[
         'card-container',
@@ -69,8 +87,6 @@
         </div>
     </div>
 
-    <!-- Reset Button (only show when cards are released) -->
-
     </div>
 </template>
 
@@ -80,6 +96,7 @@
     justify-content: center;
     align-items: end;
     padding: 20px;
+    width: 100%;
 }
 
 .card-wrapper {
