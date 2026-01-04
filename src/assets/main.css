@@ -14,7 +14,7 @@ body, html {
   font-weight: normal;
   height: 100vh;
   overflow: hidden;
-  position: relative; /* Add this */
+  position: relative;
 }
 
 /* Add this new rule */

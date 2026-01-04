@@ -3,8 +3,6 @@
     import CardWrapper from '@/assets/Cards_wrapper.svg';
     import CardBack from '@/assets/Cards_back.svg';
 
-    // Logic for card randomisation
-
     // Grab all Asset #.svg files in public folder
     const cardModules = import.meta.glob('@/assets/Asset [0-9]*.svg', { eager: true, import: 'default', query: '?url' });
     const cardUrls = Object.values(cardModules) as string[];
