@@ -59,34 +59,41 @@
 </script>
 
 <template>
-    <div>
-        <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
-    </div>
-    <div class="mtg-container">
-    <img :src="CardWrapper" :class="['card-wrapper', isCardsReleased ? 'released' : '']" alt="Card Wrapper" @click="releaseCardsAnimation()"/>
-
-    <!-- Loop through cards -->
-    <div
-        v-for="(cardUrl, index) in selectedCardUrls"
-        :key="index"
-        :class="[
-        'card-container',
-        { flipped: flippedCards[index] },
-        { [`release-card-${index}`]: releasedCards[index] },
-        { 'animating': isAnimating }
-        ]"
-        @click="flipCard(index)"
-    >
-        <div class="card-flipper">
-        <img :src="CardBack" class="card card-back" :alt="`Card Back ${index + 1}`" />
-        <img :src="cardUrl" class="card card-front" :alt="`Card ${index + 1}`" />
+    <main>
+        <div class="reset-cards-container">
+            <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
         </div>
-    </div>
+        <div class="mtg-container">
+            <img :src="CardWrapper" :class="['card-wrapper', isCardsReleased ? 'released' : '']" alt="Card Wrapper" @click="releaseCardsAnimation()"/>
 
-    </div>
+            <!-- Loop through cards -->
+            <div
+                v-for="(cardUrl, index) in selectedCardUrls"
+                :key="index"
+                :class="[
+                'card-container',
+                { flipped: flippedCards[index] },
+                { [`release-card-${index}`]: releasedCards[index] },
+                { 'animating': isAnimating }
+                ]"
+                @click="flipCard(index)"
+            >
+                <div class="card-flipper">
+                <img :src="CardBack" class="card card-back" :alt="`Card Back ${index + 1}`" />
+                <img :src="cardUrl" class="card card-front" :alt="`Card ${index + 1}`" />
+                </div>
+            </div>
+        </div>
+    </main>
 </template>
 
 <style scoped>
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
 .mtg-container {
     display: flex;
     justify-content: center;
@@ -96,7 +103,7 @@
 }
 
 .card-wrapper {
-    width: 250px;
+    width: 150px;
     height: auto;
     cursor: pointer;
     position: relative;
@@ -106,16 +113,16 @@
 }
 
 .card-wrapper.released {
-    top: 200px;
+    top: 150px;
 }
 
 .card-container {
-    width: 200px;
+    width: 100px;
     height: 300px;
     perspective: 1000px;
     cursor: pointer;
     position: absolute;
-    bottom: 40px;
+    bottom: -5px;
     transition: transform 1s ease-in-out; /* Add this transition */
 }
 
@@ -161,31 +168,31 @@
 
 /* Static positions after animation */
 .card-container.release-card-0:not(.animating) {
-    transform: translate(-250px, -300px) rotate(0deg) scale(1.2);
+    transform: translate(-150px, -200px) rotate(0deg) scale(1.2);
 }
 
 .card-container.release-card-1:not(.animating) {
-    transform: translate(0px, -300px) rotate(0deg) scale(1.2);
+    transform: translate(0px, -200px) rotate(0deg) scale(1.2);
 }
 
 .card-container.release-card-2:not(.animating) {
-    transform: translate(250px, -300px) rotate(0deg) scale(1.2);
+    transform: translate(150px, -200px) rotate(0deg) scale(1.2);
 }
 
 
 @keyframes releaseCard0 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(-250px, -300px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(-150px, -200px) rotate(720deg) scale(1.2) }
 }
 
 @keyframes releaseCard1 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(0px, -300px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(0px, -200px) rotate(720deg) scale(1.2) }
 }
 
 @keyframes releaseCard2 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
-    100% { transform: translate(250px, -300px) rotate(720deg) scale(1.2) }
+    100% { transform: translate(150px, -200px) rotate(720deg) scale(1.2) }
 }
 
 
