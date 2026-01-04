@@ -30,3 +30,16 @@ a,
   transition: 0.4s;
   padding: 3px;
 }
+
+
+.mtg-btn {
+  background-color: var(--tams-bg-color-primary);
+  color: black;
+  font-family: 'CreatoDisplay', sans-serif;
+  border: solid 2px black;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}

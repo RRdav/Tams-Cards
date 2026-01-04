@@ -61,7 +61,7 @@
 <template>
     <main>
         <div class="reset-cards-container">
-            <button v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
+            <button class="mtg-btn" v-if="isCardsReleased" @click="resetCards()">Reset Cards</button>
         </div>
         <div class="mtg-container">
             <img :src="CardWrapper" :class="['card-wrapper', isCardsReleased ? 'released' : '']" alt="Card Wrapper" @click="releaseCardsAnimation()"/>
@@ -88,12 +88,14 @@
 </template>
 
 <style scoped>
-  main {
+main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-  }
+}
+
+
 .mtg-container {
     display: flex;
     justify-content: center;
