@@ -56,9 +56,7 @@
         setTimeout(() => {
             selectedCardUrls.splice(0, selectedCardUrls.length, ...getRandomUniqueCards(3));
             isAnimating.value = false;
-            console.log('Reset animation complete');
         }, 500);
-
     }
 </script>
 
