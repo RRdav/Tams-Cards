@@ -105,17 +105,18 @@ main {
 }
 
 .card-wrapper {
-    width: 150px;
+    width: 300px;
     height: auto;
     cursor: pointer;
     position: relative;
     z-index: 1;
     top: 0;
-    transition: top 1s ease;
+    transition: all 1s ease;
 }
 
 .card-wrapper.released {
-    top: 150px;
+    top: 180px;
+    width:150px;
 }
 
 .card-container {
