@@ -182,6 +182,12 @@ main {
     transform: translate(260px, -100px) rotate(0deg) scale(2.5);
 }
 
+@media screen and (max-width: 400px) {
+    .card-container.release-card-0, .card-container.release-card-2 {
+        display: none;
+    }
+}
+
 
 @keyframes releaseCard0 {
     0% { transform: translate(0, 0) rotate(0deg) scale(0.5) }
